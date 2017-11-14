@@ -12,7 +12,7 @@
         new SitecoreSettingsWrapper(),
         new UserRoleService(),
         new PublishingLogWrapper(),
-        new Sitecore.Publishing.Service.Events.RemoteItemEventFactory(),
+        new Sitecore.Support.Publishing.Service.Events.RemoteItemEventFactory(),
         targetCacheClearHistory,
         int.Parse(remoteEventCacheClearingThreshold))
     {

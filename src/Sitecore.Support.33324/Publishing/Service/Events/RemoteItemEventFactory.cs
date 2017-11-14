@@ -4,7 +4,9 @@
   using Sitecore.Data.Eventing.Remote;
   using Sitecore.Data.Fields;
   using Sitecore.Data.Items;
+  using Sitecore.Diagnostics;
   using Sitecore.Framework.Publishing.Manifest;
+  using System;
 
   public class RemoteItemEventFactory : Sitecore.Publishing.Service.Events.RemoteItemEventFactory
   {
@@ -74,7 +76,18 @@
         }
       }
 
-      return new SavedItemRemoteEvent(savedItem, itemChanges);
+      SavedItemRemoteEvent savedItemRemoteEvent = new SavedItemRemoteEvent(savedItem, itemChanges);
+
+      try
+      {
+        PropertyStorage.IsUnversionedFieldChanged.SetValue(savedItemRemoteEvent, true);
+      }
+      catch (Exception e)
+      {
+        Log.Warn("Sitecore.Support.33324: Can't set the value of the \"IsUnversionedFieldChanged\" property: " + e.Message, this);
+      }
+
+      return savedItemRemoteEvent;
     }
   }
 }
